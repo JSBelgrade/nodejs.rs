@@ -1,0 +1,104 @@
+$black-color: #111;
+$white-color: #FFF;
+$animation-duration: .3s;
+$primary-color: #123;
+$min-desktop: 768px;
+
+.navbar {
+  position: fixed;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  visibility: hidden;
+  background-color: tint($black-color, 5%);
+  // @include transition(visibility 0s $animation-duration);
+
+  .navigation-wrapper {
+    height: 100%;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 40px 5%;
+
+    // @include transform(translateZ(0));
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+
+    // @include transform(translateY(-50%));
+    // @include transition(transform $animation-duration);
+    // @include transition-timing-function(cubic-bezier(.86,.01,.77,.78));
+  }
+
+  .navigation-is-open & {
+    visibility: visible;
+    // @include transition(visibility 0s 0s);
+
+    .navigation-wrapper {
+      // @include transform(translateY(0));
+      // @include transition(transform $animation-duration - .2s);
+      // @include transition-timing-function(cubic-bezier(.82,.01,.77,.78));
+    }
+  }
+
+  h2 {
+    position: relative;
+    margin-bottom: 1.7em;
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: darken($primary-color, 5%);
+    text-transform: uppercase;
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      margin-left: -30px;
+      bottom: -20px;
+      height: 1px;
+      width: 60px;
+      background-color: currentColor;
+    }
+  }
+
+  .primary-nav {
+    margin-top: 60px;
+
+    li {
+      margin: 1.6em 0;
+    }
+
+    a {
+      font-size: 1.4rem;
+      text-decoration: none;
+      color: rgba($white-color, .5);
+      // font-weight: $font-weight-light;
+      display: inline-block;
+
+      &.selected {
+        color: $white-color;
+      }
+
+      .no-touch &:hover {
+        color: $white-color;
+      }
+    }
+  }
+
+   
+}
+
+body:not(.navigation-is-open) {
+  .navbar {
+    .navigation-wrapper {
+      overflow: hidden;
+    }
+  }
+}
+
+body.navigation-is-open {
+  .menu-burger {
+    background-color: $black-color;
+  }
+}

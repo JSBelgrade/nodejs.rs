@@ -1,0 +1,91 @@
+.menu-button {
+  z-index: 100;
+  position: fixed;
+  top: 30px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  background: rgba(0, 0, 0, .2);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background .3s;
+}
+
+.menu-button:hover {
+  background: rgba(0, 0, 0, .4);
+}
+
+.menu-button:focus {
+  outline: none;
+}
+
+.menu-button span {
+  display: block;
+  position: absolute;
+  top: 29px;
+  left: 18px;
+  right: 18px;
+  height: 2px;
+  background: white;
+}
+
+.menu-button span::before,
+.menu-button span::after {
+  position: absolute;
+  display: block;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #fff;
+  content: "";
+}
+
+.menu-button span::before {
+  top: -8px;
+}
+
+.menu-button span::after {
+  bottom: -8px;
+}
+
+.menu-button span {
+  transition: background 0s 0.3s;
+}
+
+.menu-button span::before,
+.menu-button span::after {
+  transition-duration: 0.3s, 0.3s;
+  transition-delay: 0.3s, 0s;
+}
+
+.menu-button span::before {
+  transition-property: top, transform;
+}
+
+.menu-button span::after {
+  transition-property: bottom, transform;
+}
+
+/* active state, i.e. menu open */
+.menu-button.is-active {
+  background-color: #cb0032;
+}
+
+.menu-button.is-active span {
+  background: none;
+}
+
+.menu-button.is-active span::before {
+  top: 0;
+  transform: rotate(45deg);
+}
+
+.menu-button.is-active span::after {
+  bottom: 0;
+  transform: rotate(-45deg);
+}
+
+.menu-button.is-active span::before,
+.menu-button.is-active span::after {
+  transition-delay: 0s, 0.3s;
+}
