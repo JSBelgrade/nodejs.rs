@@ -28,7 +28,11 @@ metalsmith(__dirname)
     if (err) throw err
 
     if (argv.build)
-      ghpages.publish(path.join(__dirname, 'dist'), err => {
+      ghpages.publish(path.join(__dirname, 'dist'), {
+        message: 'chore(dist): auto-publish on Github pages'
+      }, err => {
+        console.log('Is it ok?', !err, err)
+
         if (err) throw err
 
         console.log('Website is published on GH pages branch!')
