@@ -1,0 +1,32 @@
+<p>Markdown je alat za konverziju čistog (plain) teksta u HTML sadržaj. Markdown ima sopstvenu sintaksu koja je veoma jednostavna za korišćenje. Prvenstveno je namenjen osobama koje pišu sadržaj vidljiv na Web-u i prema tome moraju da koriste HTML markup. Markdown je rešenje za pisanje čitkih, jednostavnih tekstualnih dokumenata koji se uz pomoć Markdown softvera konvertuju u validan HTML sadržaj. Dokumenti pisani Markdown sintaksom su veoma čitki pa se čak i ne moraju konvertovati u HTML ako ih čitate u običnom text editor-u. <a href="http://daringfireball.net/">John Gruber</a>, autor Markdown-a, inspiraciju za stvaranje Markdown-a je pronašao u jednostavnom formatu tekstualnih e-mail poruka.</p>
+<p>U ovom članku će biti opisane mogućnosti i primene Markdown sintakse kroz mnoštvo primera. Nakon zvanične verzije Markdown-a <a href="http://daringfireball.net/projects/markdown/syntax">http://daringfireball.net/projects/markdown/syntax</a>, upoznaću vas sa <a href="http://github.github.com/github-flavored-markdown/">GFM</a> unapređenim Markdown-om, kao i sa varijantom specifičnom za <a href="http://www.nodejs.rs/post/generalni-prirucnik-za-markdown-sintaksu#node-srbija-markdown">Node Srbija</a>, jer sve to možete koristiti na ovom sajtu.</p>
+<p>Markdown pored svoje sintakse dozvoljava i upotrebu klasičnog HTML-a. Specijalni karakteri kao što su <code>&gt;</code> i <code>&amp;</code> će automatski biti escape-ovani. To znači da <code>4 &lt; 5</code> jednostavno tako i napišete.<br>Napomena: upotreba HTML-a na ovom sajtu je blokirana iz bezbednosnih razloga.</p>
+<h2 id="pasusi-paragraphs-">Pasusi (paragraphs)</h2>
+<p>Pasus je jednostavno skup rečenica opciono odvojenih novim redom.<br>Da biste napravili novi red (<code>&lt;br /&gt;</code>), rečenicu završite sa dva razmaka pre nego što pređete u novi red.</p>
+<p>Ovo je primer pasus. Još jedna test rečenica u istom pasusu koja se završava sa dva razmaka pa novi red.<br>Primetićete da je ovaj tekst u novom redu.</p>
+<pre><code>Ovo je primer pasus. Još jedna test rečenica u istom pasusu koja se završava sa dva razmaka pa novi red.  
+Primetićete da je ovaj tekst u novom redu.
+</code></pre><h2 id="naslovi-headers-">Naslovi (headers)</h2>
+<p>Postoje dva načina da kreirate naslov (header).</p>
+<ol>
+<li>Da podvučete tekst sa bilo kojim brojem znakova jednako (<code>=</code>) ukoliko želite <strong>h1</strong> tag, ili ukoliko želite <strong>h2</strong> tag sa znakovima povlaka (<code>-</code>).</li>
+<li>Započnete rečenicu sa određenim brojem znakova taraba (<code>#</code>). Broj znakova je od <strong>1 - 6</strong> u zavisnosti od željenog taga h1 - h6.
+a) Kod prvog načina broj karaktera kojim podvlačite tekst nije bitan:</li>
+</ol>
+<p>Ovo je primer za h1</p>
+<h1 id="ovo-je-primer-za-h1">Ovo je primer za h1</h1>
+<p>Ovo je primer za h2</p>
+<h2 id="ovo-je-primer-za-h2">Ovo je primer za h2</h2>
+<p>b) Kod drugog načina rečenicu možete opciono i završiti sa tarabama (ne mora da se podudara sa brojem započetih taraba). Ovo je više u estetske svrhe kada se dokument čita u text editor-u.</p>
+<p>Ovo je h1
+Ovo je h2
+Ovo je h3</p>
+<p>Ovo je h4</p>
+<p>Ovo je h5
+Ovo je h6</p>
+<h1 id="ovo-je-h1">Ovo je h1</h1>
+<h2 id="ovo-je-h2">Ovo je h2</h2>
+<h3 id="ovo-je-h3">Ovo je h3</h3>
+<h4 id="ovo-je-h4">Ovo je h4</h4>
+<h5 id="ovo-je-h5">Ovo je h5</h5>
+<h6 id="ovo-je-h6">Ovo je h6</h6>

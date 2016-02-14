@@ -8,4 +8,5 @@ backgroundWrapper.style.backgroundImage = 'url(assets/images/backgrounds/backgro
 
 menu.addEventListener('click', function() {
   menu.classList.toggle('is-active')
+  document.body.classList.toggle('navigation-is-open')
 })
