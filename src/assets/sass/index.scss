@@ -1,8 +1,26 @@
+@import "partials/font";
 @import "partials/header";
 @import "partials/menu";
 @import "partials/nav";
+@import "partials/footer";
 
 body {
   margin: 0;
-  background: #EEE;
+  font-family: $regular-font;
+}
+
+section {
+  display: block;
+  margin: 0 auto;
+  width: 90%;
+  max-width: 1024px;
+}
+
+.column-1-2 {
+  display: block;
+  overflow: hidden;
+  float: left;
+  margin: 0 2%;
+  padding: 10px 0;
+  width: 46%;
 }

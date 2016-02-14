@@ -1,24 +1,28 @@
 'use strict'
 
 const metalsmith  = require('metalsmith'),
-      ifThen      = require('metalsmith-if'),
-      argv        = require('optimist').argv,
-      ghpages     = require('gh-pages'),
-      path        = require('path'),
-      metadata    = require('./config/metadata'),
-      sass        = require('./config/sass'),
-      layouts     = require('./config/layouts'),
-      permalinks  = require('./config/permalinks'),
-      markdown    = require('./config/markdown'),
-      browsersync = require('./config/browsersync')
+  ifThen      = require('metalsmith-if'),
+  argv        = require('optimist').argv,
+  ghpages     = require('gh-pages'),
+  path        = require('path'),
+  metadata    = require('./config/metadata'),
+  sass        = require('./config/sass'),
+  collections = require('./config/collections'),
+  excerpts    = require('metalsmith-better-excerpts'),
+  layouts     = require('./config/layouts'),
+  permalinks  = require('./config/permalinks'),
+  markdown    = require('./config/markdown'),
+  browsersync = require('./config/browsersync')
 
 metalsmith(__dirname)
   .source('src')
   .use(metadata)
   .use(sass)
+  .use(collections)
+  .use(excerpts())
   .use(markdown)
-  .use(permalinks)
   .use(layouts)
+  .use(permalinks)
   .use(ifThen(
     argv.watch,
     browsersync
@@ -31,8 +35,6 @@ metalsmith(__dirname)
       ghpages.publish(path.join(__dirname, 'dist'), {
         message: 'chore(dist): auto-publish on Github pages'
       }, err => {
-        console.log('Is it ok?', !err, err)
-
         if (err) throw err
 
         console.log('Website is published on GH pages branch!')

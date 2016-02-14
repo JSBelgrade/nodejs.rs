@@ -1,3 +1,5 @@
+@import "variables";
+
 .menu-button {
   z-index: 100;
   position: fixed;
@@ -8,7 +10,7 @@
   background: rgba(0, 0, 0, .2);
   border-radius: 50%;
   cursor: pointer;
-  transition: background .3s;
+  transition: background $animation-duration;
 }
 
 .menu-button:hover {
@@ -26,7 +28,7 @@
   left: 18px;
   right: 18px;
   height: 2px;
-  background: white;
+  background: $light-color;
 }
 
 .menu-button span::before,
@@ -36,7 +38,7 @@
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: #fff;
+  background-color: $light-color;
   content: "";
 }
 
@@ -49,13 +51,13 @@
 }
 
 .menu-button span {
-  transition: background 0s 0.3s;
+  transition: background 0s $animation-duration;
 }
 
 .menu-button span::before,
 .menu-button span::after {
-  transition-duration: 0.3s, 0.3s;
-  transition-delay: 0.3s, 0s;
+  transition-duration: $animation-duration, $animation-duration;
+  transition-delay: $animation-duration, 0s;
 }
 
 .menu-button span::before {
@@ -68,7 +70,7 @@
 
 /* active state, i.e. menu open */
 .menu-button.is-active {
-  background-color: #cb0032;
+  background-color: $red-color;
 }
 
 .menu-button.is-active span {
@@ -87,5 +89,5 @@
 
 .menu-button.is-active span::before,
 .menu-button.is-active span::after {
-  transition-delay: 0s, 0.3s;
+  transition-delay: 0s, $animation-duration;
 }
