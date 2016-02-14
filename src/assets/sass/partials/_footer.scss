@@ -4,9 +4,13 @@ footer {
   display: block;
   overflow: hidden;
   margin: 40px 0 0;
-  padding: 20px 0 0;
+  padding: 20px 0 40px;
   background: $dark-color;
   color: $light-color;
+
+  .box {
+    overflow: hidden;
+  }
 }
 
 footer ul {
@@ -27,5 +31,52 @@ footer ul {
   a {
     color: $light-color;
     text-decoration: none;
+  }
+}
+
+footer a.social-icon {
+  display: block;
+  float: left;
+  width: 36px;
+  height: 36px;
+  background: rgba(255, 255, 255, .2);
+  border-radius: 50%;
+  margin: 0 10px 0 0;
+  overflow: hidden;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(255, 255, 255, .4);    
+  }
+}
+
+form.newsletter {
+  input {
+    margin: 0;
+    padding: 0 0 0 10px;
+    width: 65%;
+    height: 40px;
+    box-sizing: border-box;
+    border: none;
+    font-size: 14px;
+  }
+
+  input:focus {
+    padding-left: 8px;
+    outline: none;
+    border: 2px solid #EEE;
+  }
+
+  input[type=submit] {
+    float: right;
+    padding: 0;
+    width: 32%;
+    line-height: 36px;
+    border: 2px solid #FFF;
+    box-sizing: border-box;
+    background: transparent;
+    color: white;
+    text-align: center;
+    cursor: pointer;  
   }
 }
