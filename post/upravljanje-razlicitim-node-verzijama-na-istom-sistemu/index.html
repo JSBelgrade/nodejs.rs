@@ -1,0 +1,38 @@
+<p>U ovom članku ću vam u nekoliko rečenica objasniti kako možete da imate više <code>node</code> verzija instaliranih na istom sistemu.</p>
+<p>Sigurno ćete doći u situaciju da radite na više projekata/modula i neki od njih će zahtevati različite verzije <code>node</code>-a.
+Trenutno najpopularnije biblioteke za upravljanje sa instaliranim node verzijama su: <a href="https://npmjs.org/package/n">n</a> i <a href="https://github.com/creationix/nvm">nvm</a> .</p>
+<p>[cutHere]</p>
+<p>U ovom članku ćemo koristiti <a href="https://npmjs.org/package/n">n</a> node modul a svakako vam preporučujem da posetite stranicu projekta <a href="https://github.com/creationix/nvm">nvm</a> i isprobate i njega takođe.</p>
+<p>Instalacija se vrši uz pomoć <code>npm</code>-a:</p>
+<pre><code class="lang-bash">$ [sudo] npm install -g n
+</code></pre>
+<p>Upotreba komande <code>n</code> je više nego jednostavna i ja ću navesti samo neke zanimljive kao npr:</p>
+<pre><code class="lang-bash">$ sudo n stable # instalira najnoviju stabilnu verziju node-a
+
+     install : 0.10.18
+       mkdir : /usr/local/n/versions/0.10.18
+       fetch : http://nodejs.org/dist/v0.10.18/node-v0.10.18-linux-x86.tar.gz
+/usr/local/bin/node
+   installed : v0.10.18
+</code></pre>
+<pre><code class="lang-bash">$ sudo n latest # instalira poslednju objavljenu node verziju
+
+     install : 0.11.7
+       mkdir : /usr/local/n/versions/0.11.7
+       fetch : http://nodejs.org/dist/v0.11.7/node-v0.11.7-linux-x86.tar.gz
+/usr/local/bin/node
+   installed : v0.11.7
+</code></pre>
+<pre><code class="lang-bash">$ sudo n rm 0.11.7 # ukloniti zeljenu verziju sa sistema
+</code></pre>
+<p>Za trenutno aktivnu verziju <code>node</code>-a proverite:</p>
+<pre><code class="lang-bash">$ node -v
+v0.10.8
+</code></pre>
+<p>Za aktiviranje neke druge node verzije instalirane na sistemu:</p>
+<pre><code class="lang-bash">$ n 0.11.7 # instalira i/ili aktivira verziju 0.11.7
+</code></pre>
+<p>Za svu dodatnu pomoć:</p>
+<pre><code class="lang-bash">$ n --help
+</code></pre>
+<p>To bi bilo sve za upoznavanje sa ovom krajnje jednostavnom ali moćnom alatkom koja će vam pomoći da lako upravljate sa instaliranim verzijama <code>node</code>-a na vašem sistemu. Za detaljnije informacije molim vas posetite <a href="https://npmjs.org/package/n">stranicu</a> samog projekta.</p>

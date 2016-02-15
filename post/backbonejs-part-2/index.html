@@ -1,0 +1,90 @@
+<p>Nastavljamo dalje. Ukoliko niste pročitali prvi deo, preporučujem da se vratite i pročitate <a href="http://nodejs.rs/post/backbonejs-part-1">Backbone.js - part 1</a> jer su članci povezani.</p>
+<h2 id="kolekcije">Kolekcije</h2>
+<p>Shvatili ste i naučili šta je, za šta služi i kako se koristi model. Sledeće pitanje je kako grupisati modele i kako raditi sa grupom modela. Za to nam služe backbone.js kolekcije.</p>
+<p>[cutHere]</p>
+<h2 id="inicijalizacija">Inicijalizacija</h2>
+<p>Držaćemo se primera iz prethodnog članka. Tamo smo imali model osobe. Ukoliko želimo da grupišemo više modela, napravićemo kolekciju ljudi.</p>
+<pre><code>var People = Backbone.Collection.extend({
+    model: Person,
+    url: &#39;/people&#39;
+});
+</code></pre><p>Primetićete da se kolekciji za property model prosledjuje sama &#39;klasa&#39;, a ne instanca. To prosledjujemo da bi mogli da koristimo &#39;custom&#39; metode modela.
+Url property je url sa kojim će kolekcija komunicirati. Backbone je radjen po REST patternu. Ukoliko ne znate šta je REST ili kako funkcioniše, pogledajte: <a href="https://vimeo.com/17785736">Teach a dog to rest</a>.</p>
+<p>Ukratko:</p>
+<table>
+<thead>
+<tr>
+<th>Request</th>
+<th style="text-align:center">Url</th>
+<th style="text-align:right">Response</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td style="text-align:center">/people</td>
+<td style="text-align:right">vraća sve objekte</td>
+</tr>
+<tr>
+<td>POST</td>
+<td style="text-align:center">/people</td>
+<td style="text-align:right">dodaje novi objekat</td>
+</tr>
+<tr>
+<td>GET</td>
+<td style="text-align:center">/people/:id</td>
+<td style="text-align:right">vraća odredjeni objekat</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td style="text-align:center">/people/:id</td>
+<td style="text-align:right">menja odredjeni objekat</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td style="text-align:center">/people:/id</td>
+<td style="text-align:right">briše odredjeni objekat</td>
+</tr>
+</tbody>
+</table>
+<p>Url property može biti i funkcija u kojoj ćete definisati generisanje urla na način na koji vama odgovara, npr:</p>
+<pre><code>var People = Backbone.Collection.extend({
+    model: Person,
+    url: function() {
+        return this.document.url() + &#39;/people&#39;;
+    }
+});
+</code></pre><h2 id="dodavanje-modela-u-kolekciju">Dodavanje modela u kolekciju</h2>
+<p>Zatim ćemo napraviti instancu i dodati modele u kolekciju.</p>
+<pre><code>var people = new People();
+people.add(person);
+</code></pre><p><em><code>person</code> je instanca modela koju smo koristili u prethodnoj lekciji.</em></p>
+<p>Ako logujete instancu kolekcije, videćete da je property length promenjen jer sada imamo model u kolekciji. Kolekcije takodje imaju metodu <code>toJSON</code> i ako je pozovete, dobićete niz objekata, tj. modela.</p>
+<p>Drugi način dodavanja modela je prilikom instanciranja kolekcije. Ovaj način se takodje koristi za &#39;butstrapovanje&#39; kolekcije sa strane back-enda.</p>
+<pre><code>var people = new People([
+    { first_name: &#39;John&#39;, last_name: &#39;Doe&#39; },
+    { first_name: &#39;Ben&#39;, last_name: &#39;Doe&#39;, age: 20 },
+    { first_name: &#39;Nicolas&#39; },
+]);
+</code></pre><p>Back-end developer to može srediti na sledeći način:</p>
+<pre><code>var people = new People(&lt;?php echo json_encode($people); ?&gt;);
+</code></pre><p>Na taj način smo popunili kolekciju bez dodatnog requesta za dobijanje modela.</p>
+<h2 id="dodatne-funkcije">Dodatne funkcije</h2>
+<p>Ukoliko želite da izvučete model sa odredjenim id-em iz kolekcije, možete koristiti metodu <code>get</code>.</p>
+<pre><code>var somePerson = people.get(2);
+</code></pre><p>Ako vam treba model odredjenog indeksa možete koristiti metodu <code>at</code>.
+Kolekcija ima dosta korisnih metoda koje su većinom iz underscore.js biblioteke koja se prožima kroz ceo backbone. Za detaljnija objašnjenja proverite <a href="http://backbonejs.org/">dokumentaciju</a>.</p>
+<h3 id="sortiranje">Sortiranje</h3>
+<p>Kolekcije mogu da se sortiraju i to se često koristi kada vam trebaju modeli iz kolekcije koji su po nečemo specifični. U našem primeru ćemo izvući sve članove koji imaju preko 18 godina.</p>
+<pre><code>var People = Backbone.Collection.extend({
+    model: Person,
+    url: &#39;/people&#39;,
+    getAdults: function () {
+        return this.filter(function (person) {
+            return person.get(&#39;age&#39;) &gt; 18;
+        });
+    }
+});
+</code></pre><h2 id="napomena">Napomena</h2>
+<p>Ukoliko vaš model nema sopstvene metode, onda kolekciji nije ni potrebno prosledjivati &#39;klasu&#39; modela, a ni kreirati sam model, jer nemate šta korisno iskoristiti iz modela. Naravno i dalje ćete moći da koristite sve backbone metode koje su vezane za model.</p>
+<p>To su osnove, a sad trk po dokumentaciju. :)</p>

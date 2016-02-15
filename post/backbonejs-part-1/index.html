@@ -1,0 +1,100 @@
+<h2 id="za-to-backbone-js-">Zašto backbone.js ?</h2>
+<p>Ako ste naučili jQuery i svidja vam se šta sve možete da postignete njim, ubrzo ćete shvatiti da Vaš kod nema strukturu. Završićete sa bezbroj indentacija <code>callback</code> funkcija. </p>
+<blockquote>
+<p>Kada neko klikne ovde, pošalji ajax request. Kada se vrati rezultat, ubaci novi list item ovde i pokreni sledeću animaciju…</p>
+</blockquote>
+<p>To je ono što želimo da izbegnemo. Backbone.js je mali MV* framework koji nam pomaže da podelimo kod na 4 celine: modele, view-ove, kolekcije i rutere.
+[cutHere]</p>
+<h2 id="o-autoru">O autoru</h2>
+<p>Autor ove divne biblioteke je <a href="https://twitter.com/jashkenas">Jeremy Ashkenas</a>, koji je takodje autor biblioteke <a href="http://underscorejs.org/">underscore.js</a> koja je &#39;dependency&#39; backbone-a. Takodje Jeremy radi na razvoju <a href="http://coffeescript.org/">CoffieScript-a</a>.</p>
+<h2 id="instalacija">Instalacija</h2>
+<p>Backbone.js je biblioteka koja je zavisna od drugih biblioteka, tj. ima svoje &#39;dependecies&#39;. Dakle backbone.js zavisi od biblioteke underscore.js i neke od biblioteka za rad sa node elementima, jQuery ili Zepto. Kada učitavate biblioteke na stranicu, vodite računa o redosledu, dakle underscore.js i jQuery moraju biti učitani pre backbone-a. Ukoliko imate potrebu da podržavata browsere poput IE7 i ispod, potrebno je da učitate i biblioteku <a href="https://github.com/douglascrockford/JSON-js">json2</a> od autora <a href="http://www.crockford.com/">Douglas Crockforda</a>.</p>
+<h2 id="modeli">Modeli</h2>
+<p>U back-end-u model <strong>uglavnom</strong> predstavlja jedan deo biznis logike, dok je u backbone-u to mnogo manja celina, ili ako pricamo o podacima iz baze, model predstavlja jedan red (record). </p>
+<h3 id="vanilla-javascript-model">Vanilla javascript model</h3>
+<p>Da bi ste shvatili kako backbone modeli rade, dobro je da vidimo kako bismo koristili &#39;vanilla&#39; javascript za pisanje modela.</p>
+<p>Treba da napravimo model Osobe. Osoba treba da ima: ime, prezime i starost.</p>
+<pre><code>var Person = function (config) {
+    this.first_name = config.first_name;
+    this.last_name = config.last_name;
+    this.age = config.age;
+};
+</code></pre><p>Takodje ta osoba može da vrši neke akcije. Možemo te akcije prikačiti na sam objekat, ali to želimo da izbegnemo jer će svaka instanca objekta imati svoju metodu u memoriji. Za takve stvari je bolje da koristimo <code>prototype</code>. Sve instance će onda deliti tu metodu umesto da je rekreiraju svaki put.</p>
+<pre><code>Person.prototype.getFullName = function () {
+    return this.first_name + &#39; &#39; + this.last_name;
+};
+</code></pre><p>Sada kad smo kreirali model osobe, testirajte u konzoli. Kreirajte instancu osobe:</p>
+<pre><code>var person = new Person({ first_name: &#39;John&#39;, last_name: &#39;Doe&#39;, age: 20});
+</code></pre><p>Zatim probajte da izvučete podatke iz instance:</p>
+<pre><code>person.age // trebalo bi da vrati 20
+person.getFullName() // trebalo bi da vrati &#39;John Doe&#39;
+</code></pre><h3 id="backbone-js-modeli">Backbone.js modeli</h3>
+<p>Ako ste shvatili kako funkcionisu modeli sa <code>vanilla</code> javascript-om, probajmo da uradimo isto sa backbone modelima.</p>
+<p>Da definišete model, treba da &#39;extendujete&#39; backbone-ov model.</p>
+<pre><code>var Person = Backbone.Model.extend({});
+</code></pre><p>Umesto da koristimo <code>this.first_name</code>, bolje je da definišemo neke &#39;default&#39; vrednosti, koje možemo pregaziti prilikom instanciranja. Takodje je to dobar podsetnik šta model ima od osobina. <strong>Pored default vrednosti, modelu možemo setovati neograničen broj drugih vrednosti, tj. one nisu limit, niti ćete dobiti error ako pokušate da setujete nešto što nema u <code>defaults</code> objektu.</strong></p>
+<pre><code>var Person = Backbone.Model.extend({
+    defaults: {
+        first_name: &#39;John&#39;,
+        last_name: &#39;Doe&#39;,
+        age: 20
+    }
+});
+</code></pre><p>Ako bismo hteli da dodamo metode, više to ne moramo stavljati u prototype, već samo dodati unutar modela.</p>
+<pre><code>var Person = Backbone.Model.extend({
+    defaults: {
+        first_name: &#39;John&#39;,
+        last_name: &#39;Doe&#39;,
+        age: 20
+    },
+
+    getFullName: function () {
+        return this.get(&#39;first_name&#39;) + &#39; &#39; + this.get(&#39;last_name&#39;);
+    }
+});
+</code></pre><h4 id="getters-and-setters">Getters and setters</h4>
+<p>Trebalo je da primetite da sada osobine ne kupimo kao u native varijanti, samo pozivajući ih sa <code>this.first_name</code>, već koristimo backbone helper metodu <code>get</code> koja nam dovlači bilo koji property. Takodje ukoliko želite da promenite neku vrednost, koristićete metodu <code>set</code>, npr:</p>
+<pre><code>var person = new Person({ first_name: &#39;Korisnik&#39; });
+person.get(&#39;first_name&#39;); // vraća &#39;Korisnik&#39;
+person.get(&#39;last_name&#39;); // vraća &#39;Doe&#39; jer je to default vrednost
+person.set(&#39;last_name&#39;, &#39;sajta&#39;);
+person.get(&#39;last_name&#39;); // vraća &#39;sajta&#39;
+person.getFullName(); // vraća &#39;Korisnik sajta&#39;
+</code></pre><p><em>U set metodi, drugi parametar može biti objekat, ukoliko želite da izmenite više osobina.</em></p>
+<h4 id="helper-metode">Helper metode</h4>
+<p>Da bi ste dobili json objekat osobina, pozovite metodu <code>toJSON</code>. To je manje-više klasičan javascript objekat. Ako logujete u konzoli model, videćete da se tu nalazi dosta stvari, a da se osobine čuvaju u objektu <code>attributes</code>. Metoda toJSON praktično vraća taj objekat, npr:</p>
+<pre><code>person.toJSON();
+/*
+    Trebalo bi da vrati sledece:
+    {
+        first_name: &#39;Korisnik&#39;,
+        last_name: &#39;sajta&#39;,
+        age: 20
+    }
+*/
+</code></pre><h4 id="validacija">Validacija</h4>
+<p>Da bi smo validirali podatke potrebno je da napišemo <code>validate</code> metodu. Ova metoda se automatski poziva kada setujemo vrednosti atributa modela. Ona prihvata objekat atributa (toJSON()) kao parametar. </p>
+<pre><code>var Person = Backbone.Model.extend({
+    defaults: {
+        first_name: &#39;John&#39;,
+        last_name: &#39;Doe&#39;,
+        age: 20
+    },
+
+    validate: function (attrs) {
+        if ( attrs.age &lt; 0 ) {
+            return &#39;Age must be positive…&#39;;
+        }
+    },
+
+    getFullName: function () {
+        return this.get(&#39;first_name&#39;) + &#39; &#39; + this.get(&#39;last_name&#39;);
+    }
+});
+</code></pre><p>Ukoliko probate u konzoli da setujete vrednost atributa age na negativnu vrednost, vratiće se false. Model neće biti izmenjen.
+Da bi ste uhvatili string, tj. grešku koju hoćete da vratite, možete koristiti pub-sub koji se pojavljuje svuda kroz backbone. Ne bih o tome previše, jer je to poglavlje za sebe, ali trebalo bi da izgleda ovako nekako:</p>
+<pre><code>// Primer za samu instancu. Ne koristiti u praksi!
+person.on(&#39;error&#39;, function (model, error) {
+    return console.log(error);
+});
+</code></pre><p>To je to za početak.</p>

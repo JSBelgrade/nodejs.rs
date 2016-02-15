@@ -1,0 +1,38 @@
+<p>Najbolji način da započnete učenje novog programskog jezika je da napravite najjednostavniji program i isprobate ga kako radi.<br>U ovom članku ću vam pokazati kako da napišete vašu prvu <code>Node.js</code> aplikaciju: <code>Hello World!</code>.<br>Po tradiciji ove aplikacije, kôd je i više nego jednostavan.</p>
+<p>Kopirajte sledeći kôd u fajl sa nazivom <code>hello-world.js</code>:</p>
+<pre><code class="lang-javascript">[raw=hello-world.js]
+var http = require(&#39;http&#39;);
+
+var server = http.createServer(function (request, response) {
+  response.writeHead(200, { &#39;Content-Type&#39;: &#39;text/plain&#39; });
+  response.end(&#39;Hello World!&#39;);
+});
+
+server.listen(8888);
+
+console.log(&#39;Server pokrenut na http://localhost:8888&#39;);
+</code></pre>
+<p>Otvorite terminal i pokrenite server sa <code>node</code> komandom:</p>
+<pre><code class="lang-bash">$ node hello-world
+Server pokrenut na http://localhost:8888
+</code></pre>
+<p>Konačno otvorite vaš browser i posetite <a href="http://localhost:8888">http://localhost:8888</a> adresu.<br>Kao i očekivano videćete čuvenu <code>Hello World!</code> rečenicu.</p>
+<p>Sledi objašnjenje šta radi naš kôd.
+[cutHere]</p>
+<pre><code class="lang-javascript">var http = require(&#39;http&#39;);
+</code></pre>
+<p>Ova linija znači da učitavamo <code>http</code> modul koji ćemo koristiti u našoj aplikaciji.</p>
+<pre><code class="lang-javascript">var server = http.createServer(function (request, response) {
+  response.writeHead(200, { &#39;Content-Type&#39;: &#39;text/plain&#39; });
+  response.end(&#39;Hello World!&#39;);
+});
+</code></pre>
+<p>Kreiramo novi web server koji će kao odgovor na svaki zahtev slati <code>200</code> status kôd, jedan header <code>Content-Type</code> i zavšavati se sa sadržajem <code>Hello World!</code>. Instancu kreiranog servera čuvamo u promenljivoj <code>server</code>.</p>
+<pre><code class="lang-javascript">server.listen(8888);
+</code></pre>
+<p>Pokrećemo naš server na portu <code>8888</code>.</p>
+<pre><code class="lang-javascript">console.log(&#39;Server pokrenut na http://localhost:8888&#39;);
+</code></pre>
+<p>Prikazujemo u terminalu da smo uspešno pokrenuli server.</p>
+<p>I to bi bila naša prva <code>Node.js</code> aplikacija :-)<br>U ovom članku nismo previše analizirali naš kôd kao npr <code>request</code> objekat i tome slično, jer će to biti objašnjeno u sledećim naprednijim tutorijalima.
+Predlažem vam da malo eksperimentišete sa kôdom kao da na primer promenite header <code>Content-Type</code> u <code>text/html</code> i <code>res.end()</code> metodi prosledite malo HTML sadržaja.</p>

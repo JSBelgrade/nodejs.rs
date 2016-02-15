@@ -1,0 +1,114 @@
+<p>Kad sam počeo da razvijam Gambit.com izabrao sam socket.io pošto je to bila najpopularnija i možda i najbolja cross-browser WebSockets realtime biblioteka koja je podržavala sve što nam je bilo potrebno.
+[cutHere]
+Od samog početka smo imali mnogo problema sa socket.io od <a href="https://www.freeprintable.com/images/ram-leak.png">memory</a> <a href="https://github.com/LearnBoost/socket.io/issues/1303#issuecomment-33107520">leak</a>-a do raznoraznih bagova koje uopste nismo uspevali da reprodukujemo. Nova verzija socket.io-a je već godinu dana u razvoju i čisto sumljam da će se uopšte završiti, a stara nije updejtovana isto toliko tako da socket.io je odavno mrtav. </p>
+<p>Tragajući za alternativama naišao sam na <a href="https://github.com/primus/primus">primus</a>. </p>
+<p>Primus je abstrakcija urađena nad najpopularnijim realtime modulima, tako da ako vas jedna biblioteka zeza, možete da je zamenite sa drugom pomoću jedne linije koda. </p>
+<p>Biblioteke koje trenutno primus podržava:</p>
+<ul>
+<li><p><a href="https://github.com/LearnBoost/engine.io">Engine.io</a>
+engine.io je low level transport funkcionalnost za socket.io. Podrzava vise vrsta transporta za pravljenje realtime konekcije</p>
+</li>
+<li><p><a href="https://github.com/einaros/ws">WebSockets - ws</a>
+čista WebSocket implementacija koja koristi <code>ws</code> WebScoket module koji je jedan od najbrzis ako ne i najbrzi WebSocket server implementacija pisanih u Node.js-u. Posto je ovo 
+cista WebSocket implementacija nisu podrzani svi pretraživači</p>
+</li>
+<li><p><a href="https://github.com/josephg/node-browserchannel">BrowserChannel</a>
+tehnologija originalno razvijena za prvobitnu realtime komunikaciju u GMail-u. Ne koristi WebSockets i pravljena je da podrzava komunikaciju na istom domenu</p>
+</li>
+<li><p><a href="https://github.com/sockjs/sockjs-node">SockJS</a>
+Realtime sever koji podrzava cross domain konekcije, koristeći više vrsta transporta</p>
+</li>
+<li><p><a href="http://socket.io">Socket.io</a>
+jedan od prvih implementacija real time servera pisanih u Node.js-u i najviše korišćen modul. Koristi više transporta</p>
+</li>
+</ul>
+<p>Koji transport izabrati ? Mi smo se za sad odlučili za SockJS, pošto smo odmah eliminisali BrowserChannel i Socket.io pošto su to stare implementacija koje sa sobom nose dosta bugova. Čista WebSockets implementacija isto nije bila opcija pošto moramo da podržavamo i browsere koji ne podržavaju čistu WebSockets implementaciju. Tako da je bilo između SockJS i Engine.io i čitajuči iskustva drugih ljudi izabrao sam SockJS, sa idejom ako ne radi sve kako treba lako ću da pređem na engine.io</p>
+<p>Sam prelaz sa socket.io-a na primus je bio bezbolan i lak, trebalo mi je nekoliko sati sve da prepišem i ispodešavam.</p>
+<p>Prvo što sam uradio je instaliranje same primus biblioteke</p>
+<pre><code>npm install primus --save
+</code></pre><p>Pošto primus ne dolazi automatski sa realtime bibliotekom bilo je potrebno i nju instalirati.</p>
+<pre><code>npm install sockjs --save
+</code></pre><p>da bi primus funkcionisao potrebno mu je proslediti <code>http/https</code>  server, u našem slučaju mi koristimo express.js pa je to izgledalo nešto ovako</p>
+<pre><code class="lang-javascript">var express = require(&#39;express&#39;)
+var app = express(); 
+var server = require(&#39;http&#39;).createServer(app)
+
+var Primus = require(&#39;primus&#39;)
+var primus = new Primus(server, { 
+      transformer: &#39;sockjs&#39;
+  });
+
+server.listen(port);
+</code></pre>
+<p>Socket.io podržava automatski  stvari kao što su događaji, sobe i automatsko skaliranje, dok primus ne dolazi automatski sa tim mogućnostima. Srećom primus je napravljen sa divnim plugin interfejsom i već postoji veliki broj pluginova razvijenih od strane zajednice</p>
+<p>Za podršku pravljenja soba i podršku događaja izabravo sam <a href="https://github.com/cayasso/primus-rooms">primus-rooms</a> i <a href="https://github.com/cayasso/primus-emitter">primus-emmiter</a></p>
+<pre><code>npm install primus-rooms primus-emmiter --save
+</code></pre><pre><code class="lang-javascript">var PrimusEmitter = require(&#39;primus-emitter&#39;);
+var PrimusRooms = require(&#39;primus-rooms&#39;);
+primus.use(&#39;rooms&#39;, PrimusRooms);
+primus.use(&#39;emitter&#39;, PrimusEmitter);
+</code></pre>
+<p>ovo nam donosi mogućnost soba i događaja, primer kako to sve otprilike funkcioniše</p>
+<pre><code class="lang-javascript">primus.on(&#39;connection&#39;, function(spark) {
+    // pozvace dogadjaj vesti na klientu
+    spark.send(&#39;vesti&#39;, &#39;Nova vest&#39;);
+
+   // slusamo na korisikov dogadjaj i vracamo mu poruku
+    spark.on(&#39;dohvatiPoruku&#39;, function(data) {
+            dohvatiPoruku(id, function(poruka) {
+                     spark.send(&#39;poruka&#39;, poruka);
+             });
+     });
+    // na join ubacujemo korisnika u sobu
+     spark.on(&#39;join&#39;,  function(room) {
+            spark.join(room);
+     });
+     // na leave izbacujemo korisnika iz sobe
+     spark.on(&#39;leave&#39;, function(room) {
+        spark.leave(room);
+      });
+       // broadcastujemo da je korisnik usao u sobu
+       primus.room(&#39;chat&#39;).except(spark.id).send(&#39;chat&#39;, &#39;novi korisnik..&#39;);
+});
+
+// saljemo update svima koji su u sobi vesti
+primus.room(&#39;vesti&#39;).send(&#39;vesti&#39;, data);
+</code></pre>
+<p>Socket.io automatski podrzava skaliranje na vise server/procesa dovoljno je samo da mu prosledimo redis</p>
+<pre><code class="lang-javascript">io.set(&#39;store&#39;, new RedisStore({
+  redisPub : pub
+, redisSub : sub
+, redisClient : client
+}));
+</code></pre>
+<p>Mi smo tu funkcionalnost smo postigli sa primus pluginom <a href="https://github.com/neoziro/primus-cluster">primus-cluster</a> koji podržava već napomenute primus-emmiter i primus-rooms</p>
+<pre><code>npm install primus-cluster --save
+</code></pre><pre><code class="lang-javascript">var redis = require(&#39;redis&#39;);
+var createClient = function() {
+    return redis.createClient(6379, &#39;localhost&#39;);
+};
+var PrimusCluster = require(&#39;primus-cluster&#39;);
+var Primus = require(&#39;primus&#39;)
+var primus = new Primus(server, { 
+      transformer: &#39;sockjs&#39;,
+      cluster: createClient
+  });
+primus.use(&#39;cluster&#39;, PrimusCluster);
+</code></pre>
+<p>Što se tiče autorizacije klienta, mi smo za socket.io delili redis session store i autorizaciju radili preko toga. U primusu to isto lepo radi plugin <a href="https://github.com/zeMirco/primus-express-session">primus-express-session</a> </p>
+<pre><code>npm install primus-express-session --save
+</code></pre><pre><code class="lang-javascript">var ExpressStore = require(&#39;express-redis-store&#39;);
+var PrimusExpressSession = require(&#39;primus-express-session&#39;);
+
+var primus = new Primus(server, {
+            transformer: &#39;sockjs&#39;,
+            session: {
+                secret: &#39;isti secret koji je u express-u naveden&#39;,
+                store: ExpressStore
+           }
+});
+
+ primus.use(&#39;session&#39;, PrimusExpressSession);
+</code></pre>
+<p>  U produkciji je primus već više od 2 nedelje i za sad se pokazao kao odlična zamena za socket.io </p>
+<p>Ako imate neka pitanja slobodno pitajte u komentarima</p>

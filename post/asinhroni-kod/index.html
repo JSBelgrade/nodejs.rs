@@ -1,0 +1,72 @@
+<p>Node.js je baziran na tome da uglavnom veći deo koda samo sedi u pozadini i čeka da se desi neki I/O (Ulaz/Izlaz), kao što su čekanje da se fajl upiše na disk ili da MySql upit vrati podatke. </p>
+<p>Kada zahtevamo da se otvori fajl, ne čekamo na rezulat nego kažemo kojoj funkciji da prosledimo podatke kad je citanje gotovo ili koji događaj da pozove, a izvršavanje drugog koda se nastavlja. </p>
+<p>Primer:</p>
+<pre><code class="lang-javascript">   fs.readFile(&#39;data.txt&#39;, function(data) {
+     console.log(data);
+   });
+   uradiNestoDrugo();
+</code></pre>
+<p>U našem primeru neće se čekati da se procita fajl, nego će se odmah pozvati funkcija <code>uradiNestoDrugo();</code> a kad se pročita pozvaće se anonimna funkcija(callback) koju smo prosledili.
+[cutHere]</p>
+<h3 id="-ta-je-callback-">Šta je callback ?</h3>
+<p>Asihrona priroda JavaScript-a i Noda dovodi do toga da stvari radimo drugačije, umesto da čekamo u mestu dok se neki događaj ne završi i vrati rezulat mi možemo da prosledimo funkciju(callback) koja će biti pozvana kad resurs bude spreman ili događaj završen. </p>
+<p>Jedan od najjednostavnijih primera je AJAX request.</p>
+<pre><code class="lang-js">   $.get(&#39;tekstovi.html&#39;, function(tekstovi) {
+      console.log(tekstovi);
+   });
+</code></pre>
+<p><code>jQuery</code> metodi <code>get</code> prosleđujemo adresu sa koje će dohvati tekstove i callback funkciju koja će biti pozvana kad ti testovi nama budu dostupni.</p>
+<p>Meni je uvek lakše kad vidim primer, tako da evo jedan primer kako da implementirate sami vašu funkciju koja će da prihvata callback.</p>
+<pre><code class="lang-javascript">   /* 
+    * funkcija koja uzima putem AJAX-a tekst i 
+    * menja sadržaj .text elementa
+    * putem animacije fadeOut i fadeIn
+    * parametri su idTeksta i callback funkciju 
+    * koja se poziva na kraju
+    */
+    var prikaziTekst = function(idTeksta, callback) {
+        $.ajax({
+            url: &#39;/api/tekstovi/&#39; + idTeksta + &#39;.html&#39;,
+            success: function(tekst) {
+              $(&#39;.tekst&#39;).fadeOut(300, function() {
+                $(this).html(tekst).fadeIn(300, function() {
+                    callback();
+                 });
+               });
+            }
+        });
+    }
+
+    /*
+     * mali primer kako bi tu funkciju mogli da iskoristimo
+     * dodajemo click event na a element
+     */
+    $(&#39;.tekstovi a&#39;).on(&#39;click&#39;, function(e) {
+        // uzimamo idTeksta iz a[data-id] attributa
+        var idTeksta = $(this).data(&#39;id&#39;);
+        prikaziTekst(idTeksta, function() {
+            alert(&#39;novi tekst prikazan&#39;);
+        });
+    });
+</code></pre>
+<h3 id="kako-organizovati-asihroni-kod-">Kako organizovati asihroni kod?</h3>
+<p>Zbog asihronog pristupa lako se može desiti da vaš kod postane zbunjujući. Na primer ako imate više asinhronih funkcija to može da izgleda ovako:</p>
+<pre><code class="lang-javascript">    app.get(&#39;/proizvod/:id&#39;, function(req, res) {
+        proizvod(req.params.id, function(proizvod) {
+            autor(proizvod.id, function(autor){
+                proizvodi({autorId: autor.id, limit: 5}, function(slicniProizvodi) {
+                    komentari({proizvodId: proizvod.id}, function(komentari), function() {
+                        res.render(&#39;proizvod&#39;, { 
+                                      autor: autor, 
+                                      proizvod: proizvod, 
+                                      slicniProizvodi: slicniProizvodi, 
+                                      komentari: komentari
+                                    });
+                    })
+                });
+            });
+        });
+    });
+</code></pre>
+<p>Primenom nekih od bibilioteka kao što su <a href="https://github.com/caolan/async">async</a> i <a href="https://github.com/kriskowal/q">Q</a> ili odvajanjem u manje celine možemo dovesti do toga da naš kod bude pregledan i čitak.</p>
+<p>Ukoliko ste zainteresovani za više informacija kako da rešite ovaj problem sa ugnježdenim callback funkcijama, <a href="http://callbackhell.com/">Callback Hell</a> je sjajan vodič koji će vam sigurno biti od koristi.</p>
