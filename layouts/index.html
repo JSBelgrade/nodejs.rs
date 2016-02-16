@@ -1,14 +1,14 @@
 {{> header }}
 {{> menu }}
-<header>
-  <img class=logo src=assets/images/nodejsrs.png />
-  <div id=background-wrapper class=background-wrapper></div>
-</header>
-  <section>
+  <header>
+    <img class=logo src=assets/images/nodejsrs.png />
+    <div id=background-wrapper class=background-wrapper></div>
+  </header>
+  <section class=home>
     {{{contents}}}
     {{#each collections.posts}}
     <article>
-      <h3><a href=#>{{this.title}}</a></h3>
+      <h3><a href={{this.path}}>{{this.title}}</a></h3>
       <span>
         Written by <a href=authors/{{this.author}}>{{this.author}}</a>,
         on {{this.date}}
