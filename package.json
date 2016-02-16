@@ -12,6 +12,7 @@
     "metalsmith-browser-sync": "^1.1.0",
     "metalsmith-collections": "^0.7.0",
     "metalsmith-define": "^1.0.0",
+    "metalsmith-excerpts": "^1.1.0",
     "metalsmith-if": "^0.1.1",
     "metalsmith-layouts": "^1.4.4",
     "metalsmith-markdown": "^0.2.1",

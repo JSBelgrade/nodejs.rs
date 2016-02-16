@@ -8,7 +8,7 @@ const metalsmith  = require('metalsmith'),
   metadata    = require('./config/metadata'),
   sass        = require('./config/sass'),
   collections = require('./config/collections'),
-  excerpts    = require('metalsmith-better-excerpts'),
+  excerpts    = require('metalsmith-excerpts'),
   // tags        = require('./config/tags'),
   layouts     = require('./config/layouts'),
   permalinks  = require('./config/permalinks'),
@@ -19,12 +19,12 @@ metalsmith(__dirname)
   .source('src')
   .use(metadata)
   .use(sass)
+  .use(markdown)
   .use(collections)
   .use(excerpts())
   // .use(tags)
-  .use(markdown)
-  .use(layouts)
   .use(permalinks)
+  .use(layouts)
   .use(ifThen(
     argv.watch,
     browsersync
