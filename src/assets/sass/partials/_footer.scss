@@ -31,7 +31,11 @@ footer ul {
 
   a {
     color: $light-color;
+    padding: 6px;
     text-decoration: none;
+        &:hover {
+        background: rgba(255, 255, 255, .4);
+  }
   }
 }
 
@@ -79,6 +83,9 @@ form.newsletter {
     color: white;
     text-align: center;
     cursor: pointer;
+    &:hover {
+    background: rgba(255, 255, 255, .4);
+  }
   }
 }
 
