@@ -1,6 +1,8 @@
 ---
 title: Generalni priručnik za Markdown sintaksu
 collection: posts
+author: zarko
+layout: post.html
 date: 2012-05-13
 ---
 

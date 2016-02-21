@@ -7,6 +7,10 @@ header {
   height: 500px;
   background-color: $dark-color;
 
+  &.post {
+    height: 300px;
+  }
+
   .background-wrapper {
     z-index: 2;
     position: absolute;

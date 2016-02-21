@@ -2,6 +2,7 @@
 title: Node.js vs PHP
 collection: posts
 author: goran
+layout: post.html
 date: 2013-10-24
 tags: node.js,php,poredjenje,performanse,hosting
 ---

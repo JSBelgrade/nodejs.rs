@@ -2,6 +2,7 @@
 title: Instalacija i pokretanje Node.js
 collection: posts
 author: zarko
+layout: post.html
 date: 2012-06-19
 tags: instalacija,node.js,linux,windows,macintosh
 ---

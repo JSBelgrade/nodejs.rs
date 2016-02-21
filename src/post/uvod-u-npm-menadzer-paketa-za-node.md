@@ -2,6 +2,7 @@
 title: Uvod u npm - menadžer paketa za Node
 collection: posts
 author: zarko
+layout: post.html
 date: 2012-06-25
 tags: npm,menadzer-paketa,instalacija,dependencies
 ---
