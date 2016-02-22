@@ -8,7 +8,11 @@ header {
   background-color: $dark-color;
 
   &.post {
-    height: 300px;
+    height: 200px;
+    color: $light-color;
+    font-size: map-get($post-title, 'header-font-size');
+    text-align: map-get($post-title, 'header-text-position');
+    padding-top: map-get($post-title,'header-top-padding');
   }
 
   .background-wrapper {
