@@ -2,6 +2,7 @@
 title: Prva Node aplikacija - Hello World!
 collection: posts
 author: zarko
+layout: post.html
 date: 2012-06-13
 tags: node.js,hello-world,osnova
 ---

@@ -2,6 +2,7 @@
 title: Backbone.js - part 2
 collection: posts
 author: goschevski
+layout: post.html
 date: 2013-09-30
 tags: backbone.js,mv*,backbonecollections
 ---

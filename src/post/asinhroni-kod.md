@@ -2,6 +2,7 @@
 title: Asinhroni kod
 collection: posts
 author: goran
+layout: post.html
 date: 2014-02-07
 tags: callback,events,async,q,asihroni-kod,promises
 ---

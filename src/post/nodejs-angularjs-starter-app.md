@@ -2,6 +2,7 @@
 title: NodeJS & AngularJS starter app
 collection: posts
 author: bogdan
+layout: post.html
 date: 2014-05-08
 tags: node.js,angular,angularjs,bower,gulp,connect,singlepageapp,starterapp
 ---

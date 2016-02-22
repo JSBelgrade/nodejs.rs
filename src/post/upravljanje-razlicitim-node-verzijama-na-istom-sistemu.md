@@ -2,6 +2,7 @@
 title: Upravljanje različitim Node verzijama na istom sistemu
 collection: posts
 author: zarko
+layout: post.html
 date: 2012-09-17
 tags: node.js,core,instalacija,verzija,n,nvm
 ---

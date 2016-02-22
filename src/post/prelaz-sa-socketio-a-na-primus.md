@@ -2,6 +2,7 @@
 title: Prelaz sa socket.io-a na primus
 collection: posts
 author: goran
+layout: post.html
 date: 2014-05-04
 tags: primus,socket.io,realtime
 ---
