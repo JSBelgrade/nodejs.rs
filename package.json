@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "nodejs.rs website",
   "main": "build/index.js",
-  "dependencies": {},
+  "dependencies": {
+    "metalsmith-drafts": "0.0.1"
+  },
   "devDependencies": {
     "gh-pages": "^0.9.0",
     "handlebars": "^4.0.5",
