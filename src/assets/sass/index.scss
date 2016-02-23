@@ -15,6 +15,23 @@ section {
   margin: 0 auto;
   width: 90%;
   max-width: 1024px;
+
+  &.post .post-meta-data {
+    font-size: $post-meta-data-font-size;
+  }
+
+  &.post a:link {
+    color: map-get($post-anchor-color, 'black');
+  }
+
+  &.post a:visited {
+    color: map-get($post-anchor-color, 'black');
+  }
+
+  &.post a:hover {
+  color: map-get($post-anchor-color, 'greenish');
+  }
+
 }
 
 .column-1-2 {
