@@ -3,6 +3,6 @@
 const markdown = require('metalsmith-markdown')
 
 module.exports = markdown({
- gfm:       true,
- tables:    true
+  gfm: true,
+  tables: true
 })
