@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "nodejs.rs website",
   "main": "build/index.js",
+  "engines": {
+    "node" : ">=5.0.0"
+  },
   "dependencies": {},
   "devDependencies": {
     "eslint": "^2.2.0",
