@@ -5,25 +5,28 @@
     <link rel=stylesheet type=text/css href=/assets/css/index.css>
   </head>
   <body>
-    <nav>
-      <span class=menu-button id=menu-button>
-        <span class=menu-icon></span>
-      </span>
-      <div id=navbar class=navbar>
-        <ul class=navigation-wrapper>
-          <li>Home</li>
-          <li>About us</li>
-        </ul>
-      </div>
-    </nav>
-<header class=post>
+<nav>
+  <span class=menu-button id=menu-button>
+    <span class=menu-icon></span>
+  </span>
+  <div id=navbar class=navbar>
+    <ul class=navigation-wrapper>
+      <li>
+        <a href=/>Home</a>
+    </li>
+    <li>
+      <a href=/about>About us</a>
+    </li>
+  </ul>
+</div>
+</nav><header class=post>
   <h1>Asinhroni kod</h1>
   <div id=background-wrapper class=background-wrapper></div>
 </header>
 <section class=post>
   <div>
-    <span>Written by <a href=#>goran</a>, on Fri Feb 07 2014 01:00:00 GMT+0100 (CET)</span>
-    <span>callback,events,async,q,asihroni-kod,promises</span>
+    <span class=post-meta-data>Written by <a href=#>goran</a>, on Fri Feb 07 2014 01:00:00 GMT+0100 (CET)</span>
+    <span class=post-meta-data>callback,events,async,q,asihroni-kod,promises</span>
   </div>
   <p>Node.js je baziran na tome da uglavnom veći deo koda samo sedi u pozadini i čeka da se desi neki I/O (Ulaz/Izlaz), kao što su čekanje da se fajl upiše na disk ili da MySql upit vrati podatke. </p>
 <p>Kada zahtevamo da se otvori fajl, ne čekamo na rezulat nego kažemo kojoj funkciji da prosledimo podatke kad je citanje gotovo ili koji događaj da pozove, a izvršavanje drugog koda se nastavlja. </p>
