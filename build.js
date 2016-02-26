@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 const metalsmith = require('metalsmith'),
   ifThen = require('metalsmith-if'),
@@ -9,12 +9,12 @@ const metalsmith = require('metalsmith'),
   sass = require('./config/sass'),
   collections = require('./config/collections'),
   excerpts = require('metalsmith-excerpts'),
-  // tags        = require('./config/tags'),
+  // tags = require('./config/tags'),
   layouts = require('./config/layouts'),
   permalinks = require('./config/permalinks'),
   markdown = require('./config/markdown'),
   browsersync = require('./config/browsersync'),
-  drafts = require('metalsmith-drafts');
+  drafts = require('metalsmith-drafts')
 
 metalsmith(__dirname)
   .source('src')
