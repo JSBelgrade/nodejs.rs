@@ -15,6 +15,7 @@ section {
   margin: 0 auto;
   width: 90%;
   max-width: 1024px;
+  line-height: $regular-line-height;
 
   &.post .post-meta-data {
     font-size: $post-meta-data-font-size;
