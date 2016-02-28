@@ -11,3 +11,13 @@ menu.addEventListener('click', function() {
   document.body.classList.toggle('navigation-is-open')
 })
 
+// Service workers, if they exists
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js', { scope: '/' })
+    .then(function(req) {
+      console.log('Succees! Scope: ', req.scope)
+    })
+    .catch(function(err) {
+      console.error(':(', err)
+    })
+}
