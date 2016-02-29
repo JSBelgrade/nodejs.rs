@@ -4,7 +4,7 @@
   "description": "nodejs.rs website",
   "main": "build/index.js",
   "engines": {
-    "node" : ">=5.0.0"
+    "node": ">=5.0.0"
   },
   "dependencies": {},
   "devDependencies": {
@@ -30,7 +30,7 @@
   "scripts": {
     "start": "node build.js --watch",
     "build": "node build.js --build",
-    "test": "eslint build.js config/*.js src/**/*.js"
+    "test": "./node_modules/eslint/bin/eslint.js build.js config/*.js src/**/*.js"
   },
   "repository": {
     "type": "git",
