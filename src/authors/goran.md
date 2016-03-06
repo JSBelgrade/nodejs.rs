@@ -2,7 +2,7 @@
 displayName: Goran Gajic
 collection: authors
 author: goran
-layout: page.html
+layout: author.html
 github: gorangajic
 twitter: golenull
 ---
