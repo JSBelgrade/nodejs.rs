@@ -6,5 +6,8 @@ module.exports = collections({
   posts: {
     sortBy: 'date',
     reverse: true
+  },
+  authors: {
+    sortBy: 'author'
   }
 })
