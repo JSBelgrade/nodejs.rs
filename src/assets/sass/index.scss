@@ -35,6 +35,20 @@ section {
 
 }
 
+::selection {
+    background: $text-select-background;
+    color: $text-select-color;
+}
+::-moz-selection {
+    background: $text-select-background;
+    color: $text-select-color;
+}
+
+::-webkit-selection {
+    background: $text-select-background;
+    color: $text-select-color;
+}
+
 .column-1-2 {
   display: block;
   overflow: hidden;
